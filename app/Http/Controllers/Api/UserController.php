@@ -2,9 +2,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
-use App\User;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 
 class UserController extends ApiController
 {
@@ -21,59 +23,63 @@ class UserController extends ApiController
      */
     public function __construct( UserRepository $userRepository )
     {
-        $this->middleware( 'api.auth', ['only' => ['show']] );
-
         $this->userRepository = $userRepository;
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Pagination\Paginator
+     * @return JsonResource
      */
     public function index(Request $request)
     {
-        return $this->userRepository->page((int) $request->query('limit'));
+        return UserResource::collection( $this->userRepository->page( (int) $request->query( 'limit' ) ) );
     }
 
     /**
      * @param int $id
      * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return JsonResource
      */
     public function show($id, Request $request)
     {
-        return $this->userRepository->getById((int)$id);
+        return new UserResource( $this->userRepository->getById( (int) $id ) );
     }
 
 
     /**
      * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws InternalErrorException
      */
     public function store(Request $request)
     {
-        return $this->userRepository->store($request->all());
+        if ( $user = $this->userRepository->store( $request->all() ) ) {
+            $token = \JWTAuth::fromUser( $user );
+            return response()->json( compact('token') );
+        }
+        throw new InternalErrorException('internal_error');
     }
 
 
     /**
      * @param int $id
      * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return JsonResource
      */
     public function update($id, Request $request)
     {
-        return $this->userRepository->update((int) $id, $request->all());
+        return new UserResource( $this->userRepository->update( (int) $id, $request->all() ) );
     }
 
     /**
      * @param int $id
      * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return JsonResource
      */
     public function destroy($id, Request $request)
     {
-        return $this->userRepository->delete((int) $id);
+        return new UserResource( $this->userRepository->delete( (int) $id ) );
     }
 
 }

@@ -16,14 +16,31 @@ use Dingo\Api\Routing\Router;
 
 /** @var Router $api */
 $api = app(Router::class);
-$api->version('v1', [], function (Router $api) {
+$api->group([
+    'version' => 'v1',
+    'namespace' => 'App\Http\Controllers\Api',
+], function (Router $api){
 
-    $api->group([
-        'namespace' => 'App\Http\Controllers\Api',
-    ], function (Router $api){
-
-        $api->resource('users', 'UserController');
-
+    /*
+    |------------------------------
+    | Protected Routes
+    |------------------------------
+    |
+    */
+    $api->group(['middleware' => 'api.auth'], function(Router $api){
+        $api->get('authenticated_user', 'AuthenticateController@authenticatedUser')->name('api.authenticated_user');
     });
+
+    /*
+    |------------------------------
+    | Non-Protected Routes
+    |------------------------------
+    |
+    */
+    $api->post('authenticate', 'AuthenticateController@authenticate')->name('api.authenticate');
+    $api->post('logout',       'AuthenticateController@logout')->name('api.logout');
+    $api->get('token',         'AuthenticateController@getToken')->name('api.token');
+
+    $api->resource('users', 'UserController');
 
 });
