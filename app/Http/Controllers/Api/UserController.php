@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Users\StoreRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
@@ -47,12 +48,14 @@ class UserController extends ApiController
 
 
     /**
-     * @param Request $request
+     * Store a user to the database.
      *
+     * @param \App\Http\Requests\Users\StoreRequest $request
      * @return \Illuminate\Http\JsonResponse
+     *
      * @throws InternalErrorException
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         if ( $user = $this->userRepository->store( $request->all() ) ) {
             $token = \JWTAuth::fromUser( $user );

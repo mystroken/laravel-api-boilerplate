@@ -28,7 +28,13 @@ $api->group([
     |
     */
     $api->group(['middleware' => 'api.auth'], function(Router $api){
+
+        // Authentication
         $api->get('authenticated_user', 'AuthenticateController@authenticatedUser')->name('api.authenticated_user');
+
+        // Users
+        $api->put( 'users/{user}', 'UserController@update' )->where( 'user', '[0-9]+' )->name( 'api.users.update' );
+        $api->delete( 'users/{user}', 'UserController@destroy' )->where( 'user', '[0-9]+' )->name( 'api.users.destroy' );
     });
 
     /*
@@ -37,10 +43,14 @@ $api->group([
     |------------------------------
     |
     */
+    // Authentication
     $api->post('authenticate', 'AuthenticateController@authenticate')->name('api.authenticate');
     $api->post('logout',       'AuthenticateController@logout')->name('api.logout');
     $api->get('token',         'AuthenticateController@getToken')->name('api.token');
 
-    $api->resource('users', 'UserController');
+    // Users
+    $api->get( 'users', 'UserController@index' )->name( 'api.users.list' );
+    $api->get( 'users/{user}', 'UserController@show' )->where( 'user', '[0-9]+' )->name( 'api.users.show' );
+    $api->post( 'users', 'UserController@store' )->name( 'api.users.store' );
 
 });

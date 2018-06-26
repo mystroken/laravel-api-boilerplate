@@ -42,14 +42,21 @@ class UsersEndpointTest extends TestCase
 
     public function test_it_can_create_a_user()
     {
-        $user_data = [
-            'name'     => 'Jane KWENE',
-            'email'    => 'jane.kwene@email.test',
-            'password' => 'secret'
-        ];
+        $response = $this->_register_a_user();
 
-        $this->post( '/api/users', $user_data )
+        $response
             ->assertJsonStructure(['token'])
+        ;
+    }
+
+
+    public function test_it_can_delete_a_user()
+    {
+        $this->seed( 'UsersTableSeeder' );
+
+        $this->_init_authenticated_request()
+             ->delete( '/api/users/1' )
+             ->assertStatus( 200 )
         ;
     }
 }
