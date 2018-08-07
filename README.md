@@ -30,7 +30,9 @@ php artisan jwt:secret
 
 ## Usage
 ### Introduction
-After installing the 
+After installing:
+* Delete .git folder: ```cd destination_folder && rm -rf .git/```
+
 ### Creating a new endpoint
 * Write a Repository
 * Write Requests (Validations)
