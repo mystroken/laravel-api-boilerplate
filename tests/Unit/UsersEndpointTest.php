@@ -43,9 +43,27 @@ class UsersEndpointTest extends TestCase
     public function test_it_can_create_a_user()
     {
         $response = $this->_register_a_user();
+        $response->assertJsonStructure(['token']);
+    }
 
-        $response
-            ->assertJsonStructure(['token'])
+
+    public function test_it_can_update_a_user_data()
+    {
+        $response = $this->_register_a_user(); // With fake attributes.
+        $output = json_decode($response->getContent());
+
+        $this->_set_token($output->token)
+            ->put('/api/users/1', [
+                'name' => 'Mystro Ken'
+            ])
+        ;
+
+        $this->get('/api/users/1')
+             ->assertJson([
+                 'data' => [
+                     'name' => 'Mystro Ken'
+                 ]
+             ])
         ;
     }
 

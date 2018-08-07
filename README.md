@@ -33,4 +33,5 @@ php artisan jwt:secret
 After installing the 
 ### Creating a new endpoint
 * Write a Repository
-* Write a Request (Validations)
+* Write Requests (Validations)
+* Create the API controller

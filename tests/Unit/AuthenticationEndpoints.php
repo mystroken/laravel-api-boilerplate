@@ -91,7 +91,16 @@ Trait AuthenticationEndpoints
      */
     private function _init_authenticated_request()
     {
-        return $this->withHeader( 'Authorization', 'Bearer ' . $this->_generate_a_valid_token() );
+        return $this->_set_token( $this->_generate_a_valid_token() );
+    }
+
+    /**
+     * @param string $token
+     * @return $this
+     */
+    private function _set_token($token)
+    {
+        return $this->withHeader( 'Authorization', 'Bearer ' . $token );
     }
 
     /**
