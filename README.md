@@ -2,7 +2,7 @@
 A boilerplate to develop secured and conventional API on top of Laravel 5.6.
 
 Dependencies:
-* PHP ~7.1.0
+* PHP >= 7.1.0
 * [Laravel 5.6](https://laravel.com/docs/5.6/)
 * [JWT Auth 1.0.*](https://github.com/tymondesigns/jwt-auth) Package
 * [Dingo Api](https://github.com/dingo/api) Package
@@ -23,9 +23,9 @@ php artisan key:generate
 php artisan jwt:secret
 ```
 Set a correct configuration
-```config/api.php```
 
-```config/jwt.php```
+* ```config/api.php```
+* ```config/jwt.php```
 
 ## Usage
 ### Introduction
