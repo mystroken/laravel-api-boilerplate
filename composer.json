@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "~7.1.0",
+        "php": "^7.1",
         "dingo/api": "2.0.0-alpha2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
