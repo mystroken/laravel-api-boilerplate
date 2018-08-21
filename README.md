@@ -18,12 +18,11 @@ composer install
 ```
 #### 3. Generate API secret keys
 ```
+cp .env.example .env
 php artisan key:generate
-```
-```
 php artisan jwt:secret
 ```
-
+Set a correct configuration
 ```config/api.php```
 
 ```config/jwt.php```
