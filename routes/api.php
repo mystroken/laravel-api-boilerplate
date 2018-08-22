@@ -30,6 +30,8 @@ $api->group([
     $api->group(['middleware' => 'api.auth'], function(Router $api){
 
         // Authentication
+        $api->post('logout', 'AuthenticateController@logout')->name('api.logout');
+        $api->get('token', 'AuthenticateController@getToken')->name('api.token');
         $api->get('authenticated_user', 'AuthenticateController@authenticatedUser')->name('api.authenticated_user');
 
         // Users
@@ -45,8 +47,6 @@ $api->group([
     */
     // Authentication
     $api->post('authenticate', 'AuthenticateController@authenticate')->name('api.authenticate');
-    $api->post('logout',       'AuthenticateController@logout')->name('api.logout');
-    $api->get('token',         'AuthenticateController@getToken')->name('api.token');
 
     // Users
     $api->get( 'users', 'UserController@index' )->name( 'api.users.list' );
