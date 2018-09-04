@@ -28,11 +28,15 @@ Set a correct configuration
 * ```config/jwt.php```
 
 ## Usage
-### Introduction
+### — Introduction
 After installing:
 * Delete .git folder: ```cd destination_folder && rm -rf .git/```
 
-### Creating a new endpoint
-* Write a Repository
-* Write Requests (Validations)
-* Create the API controller
+### — Add a new endpoint
+-   Write Tests
+-   Add route
+-   Create Model
+-   Create Resource
+-   Create Repository
+-   Create Controller
+-   Create Request (Validations)
